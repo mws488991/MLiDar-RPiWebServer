@@ -1,0 +1,59 @@
+body{
+  font-family: 'Prompt', sans-serif;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+.grid-container{
+  margin: 5% auto auto auto;
+      height: 580px;
+      width: 400px;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 5px 0 rgba(0,0,0,0.15), 0 6px 20px 0 rgba(0, 0,0,0.15);
+  }
+.grid-container {
+  text-align: center;
+
+}
+.grid-container h1{
+  font-family: 'Prompt', semi-bold;
+  color:black;
+  font-size: 50px;
+  padding-top: 25px;
+}
+.menu-content{
+  margin-top: 50%;
+  height: 50%;
+  text-align: center;
+
+}
+.menu-content ul{
+      margin: auto;
+      list-style-type: none;
+      padding: 0;
+      width: 300px;
+  }
+.menu-content a{
+      color: rgba(0, 0,0,0.5);
+      height: 45px;
+      width: 280px;
+      margin-top: 10px;
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      background-color: rgba(0, 0,0,0.05);
+      box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.15);
+
+  }
+
+.menu-content a{
+      text-align: center;
+      font-size: 25px;
+      border-radius: 15px;
+    
+  }
+  .under-container{
+      margin-top: 50px;
+      color: rgba(0, 0, 0, 0.2);
+      text-align: center;
+
+  }

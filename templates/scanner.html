@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+    <head>
+        <title> MLiDar | Scanner </title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap" rel="stylesheet">
+        <link href="../static/css/page_styles.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="screen">
+            <div class="collapsible-menu">
+                <input type="checkbox" id="menu">
+                <label for="menu">MLiDar Scanner</label>
+                <div class="menu-content">
+                    <ul>
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/scanner">Scanner</a></li>
+                        <li><a href="/document">Documents</a></li>
+                        <li><a href="/track">Track Parcels</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="description">
+                <h1 style="color: {{ col }}">Status : {{ mlidar_Status }}</h1>
+                
+            </div>
+            <div class="description-obj">
+                <h2 > {{ description_title }} </h2>
+                <h3> {{ description_detail }} </h3>
+                <h3> {{ description_form }} </h3>
+                <h3> {{ description_send }} </h3>
+            </div>
+            <div class="form_box" style="display: {{ dis }}">
+                <form action="/scanner/scan" class="input_box" method="post">
+                    <label>กรุณาเพิ่มที่อยู่ผู้ส่ง</label><br/>
+                    <input type="text" name="faddr" size="50"><br>
+                    <label>กรุณาเพิ่มที่อยู่ผู้รับ</label><br/>
+                    <t/><input type="text" name="saddr" size="50"><br>
+                    <p><input type = "submit" value = "SUBMIT" class="scan action-button shadow animate green"/></p>
+                </form>    
+            </div>
+        </div>
+        <div class="container">
+            <a href="/scanner"  onclick="return confirm('คุณแน่ใจใช่ไหมว่าจะล้างข้อมูลในหน้านี้ ?')" id="clr" class="clear_bt action-button animate">Clear</a>
+            <a href="/scanner/scan" class="scan action-button  animate green" >Scan</a>
+            <a href="/add" class="scan action-button  animate green">Add Item</a>
+        </div>     
+    </body>
+</html>

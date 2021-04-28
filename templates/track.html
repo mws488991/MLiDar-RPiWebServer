@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+    <head>
+        <title> MLiDar | Scanner </title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap" rel="stylesheet">
+        <link href="style.css" rel="stylesheet">
+        <style>
+            body{
+                font-family: 'Prompt', sans-serif;
+                background-color: rgba(0, 0, 0, 0.05);
+                
+            }
+            .screen{
+                margin: auto;
+                margin-top: 3%;
+                max-width: 90%;
+                height: 590px;
+                border-radius: 15px;
+                background-color: white;
+                box-shadow: 0 8px 5px 0 rgba(0,0,0,0.15), 0 6px 20px 0 rgba(0, 0,0,0.15);
+            
+                
+            }
+            .menu-content{
+                font-family: 'Prompt', semi-bold;
+                padding: 0 0 0 25px;
+                
+            }
+            .collapsible-menu {
+                margin: auto;
+                padding: 0px 30px;
+                width: auto;
+                border-bottom: 0px solid #d1d1d1;
+                
+            }
+            .collapsible-menu ul{
+                list-style-type: none;
+                padding: 0;
+            }
+            .collapsible-menu li{
+                background-color: rgba(0, 0, 0, 0.05);
+                border-bottom: 1px solid #fff;
+                border-radius: 5px;
+                transition: 0.3x;
+            }
+            .collapsible-menu li:hover{
+                color: #fff;
+                background:rgba(0, 0, 0, 0.2);
+                
+            }
+            .collapsible-menu a{
+                color: #333;
+                display: block;
+                padding: 10px;
+                text-decoration: none;
+            }
+            .collapsible-menu a:hover{
+                color: white;
+            }
+
+            .collapsible-menu label{
+                font-family: 'Prompt', semi-bold;
+                font-size: 35px;
+                display: block;
+                cursor: pointer;
+                background: url(https://cdn1.iconfinder.com/data/icons/jumpicon-basic-ui-glyph-1/32/-_Dot-More-Vertical-Menu-512.png) no-repeat left center;
+                padding: 10px 0 10px 80px;
+                background-size: 35px;
+            }
+            input#menu {
+                display: none;
+            }
+            input:checked + label{
+                background-image: url(https://upload.wikimedia.org/wikipedia/commons/c/ca/Transparent_X.png);
+                background-size: 35px ;
+            }
+            .menu-content{
+                max-height: 0;
+                overflow: hidden;
+                font-family: 'Oswald', sans-serif;
+                padding: 0 0 0 50px;
+            }
+            input:checked ~ label{
+                background-image: url(https://upload.wikimedia.org/wikipedia/commons/c/ca/Transparent_X.png);
+               
+            }
+            input:checked ~ .menu-content{
+                max-height: 100%;
+            }
+            .description form{
+                text-align: center;
+            }
+            .description h1 {
+                text-align: center;
+                color: seagreen;
+                
+            }
+            .description-obj{
+                margin: auto;
+                text-align: center;
+                
+            }
+            .container{
+                margin-top: 2%;
+                text-align: center;
+                display: flex;
+                max-width: 100%;
+                height: 50px;
+               
+            }
+           .container a{
+               margin: auto;
+               background-color: rgb(255, 135, 56);
+               font: bold;   
+               font-weight: bold;
+               font-size: 22px; 
+               border-radius: 15px;
+               width: 150px;
+               height: 45px;
+               box-shadow: 0 5px 3px 0 rgba(0,0,0,0.15), 0 6px 20px 0 rgba(0, 0,0,0.15);
+            
+           }
+           .container a{
+                color: snow;
+                text-decoration: none;
+                padding: 0;
+           }
+           
+           .container .scan{
+            font-size: 28px; 
+                color: rgb(255, 255, 255);
+                background-color: rgb(10, 194, 34);
+                width: 180px;
+                height: 50px;
+                text-align: center;
+                padding-top: 15px;
+            
+           }
+           
+           .animate{
+                transition: all 0.1s;
+                -webkit-transition: all 0.1s;
+            }
+            .action-button{
+                position: relative;
+                padding: 10px 40px;
+                
+                border-radius: 3px;
+                font-family: 'Lato', sans-serif;
+                font-size: 18px;
+                color: #FFF;
+                text-decoration: none; 
+        }
+            .green {
+                background-color: #71eea5;
+                border-bottom: 5px solid #27ae60;
+                text-shadow: 0px -2px #27ae60;
+            }
+            .action-button:active{
+                transform: translate(0px,5px);
+                -webkit-transform: translate(0px,5px);
+                border-bottom: 1px solid;
+            }
+        </style>
+            
+        
+    </head>
+    <body>
+        <div class="screen">
+            <div class="collapsible-menu">
+                <input type="checkbox" id="menu">
+                <label for="menu">MLiDar Document</label>
+                <div class="menu-content">
+                    <ul>
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/scanner">Scanner</a></li>
+                        <li><a href="/document">Documents</a></li>
+                        <li><a href="#">Track Parcels</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="description">
+                <h1>Enter Track : </h1>
+                <form id="contact-form" action="/track/find", method="GET">
+                    <p><input type = "text" name = "trackNo" /></p>
+                    <p><input type = "submit" value = "SUBMIT" class="scan action-button shadow animate green"/></p>
+                </form>
+                <div class="description-obj">
+                    <h2>{{ genTrack }} </h2>
+                    <h3> {{ description_detail }} </h3>
+                </div>
+            </div>
+            
+        </div>
+            
+        
+       
+          
+        
+    </body>
+</html>
