@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+    <head>
+        <title> MLiDar | Edit </title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap" rel="stylesheet">
+        <link href="../static/css/page_styles.css" rel="stylesheet">
+        <style type="text/css">
+            .des-screen-on { 
+             display: block;
+            }
+            .des-screen-off { 
+             display: none;
+            }
+    </style>
+    </head>
+    <body>
+        <div class="screen sc-01">
+            <div class="collapsible-menu">
+                <input type="checkbox" id="menu">
+                <label for="menu">MLiDar Edit</label>
+                <div class="menu-content">
+                    <ul>
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/scanner">Scanner</a></li>
+                        <li><a href="/document">Documents</a></li>
+                        <li><a href="/track">Track Parcels</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="des-screen-on" >
+                <div class="description">
+                    <h1 style="color: #228b22">แก้ไขข้อมูล</h1>
+                    <div class="table-doc" style="margin-left: 15px; padding-bottom: 20px;" >
+                        <form action = "/editt/{{ rows[1] }}" method = "POST">
+								<h2>{{ rows[1] }}</h2></td>
+								<label>ที่อยู่ผู้ส่ง</label>
+								<input type="text" name="sender" size="50" value="{{ rows[6] }}"><br><br>
+								<label>ที่อยู่ผู้รับ</label>
+								<input type="text" name="address" size="50" value="{{ rows[7] }}"><br><br>
+								<input class="scan action-button  animate green" type="submit" value="Save">
+						</form>                        
+                    </div>
+                </div>         
+            </div> 
+        </div>
+     </body>
+</html>

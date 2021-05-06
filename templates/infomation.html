@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+    <head>
+        <title> MLiDar | Information </title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap" rel="stylesheet">
+        <link href="../static/css/page_styles.css" rel="stylesheet">
+        
+    </head>
+    <body>
+        <div class="screen sc-01">
+            <div class="collapsible-menu">
+                <input type="checkbox" id="menu">
+                <label for="menu">MLiDar Information</label>
+                <div class="menu-content">
+                    <ul>
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/scanner">Scanner</a></li>
+                        <li><a href="/document">Documents</a></li>
+                        <li><a href="/track">Track Parcels</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+                <div class="description" style="display:{{ des_display }}">
+                    <h1 style="color: #228b22">สำเร็จแล้ว</h1>
+                </div>
+                <div class="description-obj" style="display:{{ des_display }}">
+                    <h4> น้ำหนัก : {{ wei }} กรัม , ขนาด  : {{ wid }} x {{ len }} x {{ hei }} มิลลิเมตร</h4><br><br>
+                </div> 
+                <div class="form_box" style="display:{{ frm_display }}">
+                    <form action="/scanner/scan" class="input_box" method="POST">
+                        <h2>กรุณาเพิ่มที่อยู่ผู้ส่ง</h2>
+                        <input type="text" name="sender" size="50"><br><br>
+                        <h2> กรุณาเพิ่มที่อยู่ผู้รับ </h2>
+                        <input type="text" name="addressee" size="50"><br>
+                        <input class="scan action-button  animate green" type="submit" value="Save">
+                    </form>  
+                </div>
+                <div class="form_box" style="display:{{ tnf_display }}" >
+                        <h1 style="color: #228b22">Finished</h1>
+                        <h3>{{track_no}}</h3>
+                        <label>Form  : {{description_form}}</label><br>
+                        <label>Sender: {{description_send}}</label><br><br>
+                        
+                    </div>
+            
+        </div>
+            <div class="container" >
+                <a href="/scanner" style="display:{{clr_btn}}" onclick="return confirm('โปรดยืนยันการเปลี่ยนเส้นทาง')" id="clr" class="clear_bt action-button animate">Back</a>
+                <a href="/scanner/scan" style="display:{{sc_btn}}" onclick="return confirm('คุณแน่ใจแล้วหรือไม่ว่าใส่ข้อมูลถูกต้อง?')" class="scan action-button  animate green">Next</a>
+            </div>
+        </div> 
+        
+        
+    </body>
+</html>

@@ -4,9 +4,30 @@
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap" rel="stylesheet">
         <link href="../static/css/page_styles.css" rel="stylesheet">
+        <style type="text/css">
+            .des-screen-on { 
+             display: block;
+            }
+            .des-screen-off { 
+             display: none;
+            }
+    </style>
+        <script type="text/jscript">
+        
+         function showTxt(n){
+             rad = document.getElementById('rady');
+             rad.className = "des-screen-off";
+             sta = document.getElementById('sta');
+             sta.className = "des-screen-on";
+             red = document.getElementById('redput');
+             red.className = "des-screen-on";
+            
+         }
+
+        </script>
     </head>
     <body>
-        <div class="screen">
+        <div class="screen sc-01">
             <div class="collapsible-menu">
                 <input type="checkbox" id="menu">
                 <label for="menu">MLiDar Scanner</label>
@@ -19,30 +40,34 @@
                     </ul>
                 </div>
             </div>
-            <div class="description">
-                <h1 style="color: {{ col }}">Status : {{ mlidar_Status }}</h1>
-                
+            <div class="des-screen-on" id="rady">
+                <div class="description">
+                    <h1 style="color: #228b22">เมลิดาร์พร้อมใช้งานแล้ว</h1>
+                </div>
+                <div class="description-obj"  >
+                  
+                   </div>  
             </div>
-            <div class="description-obj">
-                <h2 > {{ description_title }} </h2>
-                <h3> {{ description_detail }} </h3>
-                <h3> {{ description_form }} </h3>
-                <h3> {{ description_send }} </h3>
-            </div>
-            <div class="form_box" style="display: {{ dis }}">
-                <form action="/scanner/scan" class="input_box" method="post">
-                    <label>กรุณาเพิ่มที่อยู่ผู้ส่ง</label><br/>
-                    <input type="text" name="faddr" size="50"><br>
-                    <label>กรุณาเพิ่มที่อยู่ผู้รับ</label><br/>
-                    <t/><input type="text" name="saddr" size="50"><br>
-                    <p><input type = "submit" value = "SUBMIT" class="scan action-button shadow animate green"/></p>
-                </form>    
+            <div class="des-screen-off" id="sta">
+                <div class="description">
+                    <h1 style="color: #cd5c5c">เมลิดาร์กำลังทำงาน</h1>
+                </div>
+                <div class="des-sreec-off" id="redput">
+                    <div class="description-obj" >
+                         <iframe width="560" height="315" src="https://www.youtube.com/embed/Sbr9dbCHY1s?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+               
+                    
+                    </div>  
+                </div>
             </div>
         </div>
-        <div class="container">
-            <a href="/scanner"  onclick="return confirm('คุณแน่ใจใช่ไหมว่าจะล้างข้อมูลในหน้านี้ ?')" id="clr" class="clear_bt action-button animate">Clear</a>
-            <a href="/scanner/scan" class="scan action-button  animate green" >Scan</a>
-            <a href="/add" class="scan action-button  animate green">Add Item</a>
-        </div>     
+        <div class ="des-screen-on" id="container-button">
+            <div class="container" >
+                <a href="/"  onclick="return confirm('คุณแน่ใจใช่ไหมว่าจะล้างข้อมูลในหน้านี้ ?')" id="clr" class="clear_bt action-button animate">Cancel</a>
+                <a href="/scanner/scan" class="scan action-button  animate green"  onClick="showTxt(1)">Scan</a>
+            </div>
+        </div> 
+        
+        
     </body>
 </html>

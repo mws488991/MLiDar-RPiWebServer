@@ -1,137 +1,175 @@
-import json
-import time
+import json, time
+from loadcell import Loadcell
 from flask import Flask, render_template, request
+from tfmini import TFmini
+from box import Box
+from database_connect import Databaes_connect
+    
 app = Flask(__name__)
-global ObjItem 
+ld = Loadcell(5,6,214)
+tf = TFmini()
+crlib = tf.calib()
+bx = None
+db = Databaes_connect()
 
-ObjItem = {
-        'weight': 0,
-        'width' : 0,
-        'lenght': 0,
-        'heigth': 0,
-        'trackNo' : "",
-        'faar': "",
-        'sddr': "",
-    }
+
 
 @app.route('/')
 @app.route('/home')
 def index():
-    #แสดงว่าเครื่องพร้อมมาก สำหรับการใช้งาน คืนค่าแสดงผลว่าเครื่องทำงานแล้ว 
-    #เช็คว่าเครื่องชั่ง/Lidar พร้อมทำงานหรือไม่ และแสดงผลที่หน้าจอ
+    
     return render_template('index.html')    
-
 
 #Connecting MLiDAR and return status
 @app.route('/scanner')
-def scannerStatus():  
+def scanner_pg():  
+      
+      return render_template('scanner.html')    
 
-    #เช็คว่าเครื่องทำงานหรือไม่ หากไม่ให้แสดงผลว่าอะไรกำลังบกพร่อง 
-    #เครื่องพร้อมใช้งาน Calibate เครื่องชั่งให้เรียบร้อย
-    # x = int(random.random()*1000)%2
-    time.sleep(1)
-    x=1
-    if x == 1:
-        tus = {
-            'col':"green",
-            'mlidar_Status' : "พร้อมใช้งาน!",
-            'description_title': "กรุณาวางพัสดุบนตำแหน่งชั่ง",
-            'description_detail': "จากนั้นคลิ๊กปุ่ม Scan",
-            'dis': "none",
-        }
-    else : 
-        tus = {
-            'col':"red",
-            'mlidar_Status' : "No Ready!",
-            'description_title': "โปรดตรวจเช็คให้แน่ใจว่าคุณได้เปิดเครื่องเมลิดาร์แล้ว",
-            'description_detail': "จากนั้นให้กด RESET รอเครื่องทำงาน",
-            'dis': "none",
-        }
-    return render_template('scanner.html',**tus)    
 
-@app.route('/scanner/scan')
+
+@app.route('/scanner/scan', methods=['GET'])
 def scaning():
-    #รับน้ำหนังจาก Loadcell
-    #รอการคืนค่าของขนาด จาก Lidar
-    time.sleep(1)
-    x = int(random.random()*1000)%2
-
-    item = {
-        'weight': 578.9,
-        'width' : 22,
-        'lenght': 15,
-        'heigth': 10,
-        'trackNo' : "MLD0000000"
-    }
+    #scan by TFMini
+    if ld.setLoadcell():
+        print("Add Item")
+        time.sleep(2)
+        obj = tf.getTFminiData(crlib)
+        if obj == None:
+            return '<h1 style="color:red;">Time Over</h1>'
+        print(obj)
+        
+        time.sleep(2)
+        ld.doWeight() 
+        weight = ld.getWeight()
+        
+        global bx
+        bx = Box(int(weight),int(obj['wid']*10),int(obj['hei']*10))
+        
+    else :
+        print("Calibrate Error")
     
-    if x ==1:
-            
-        boxObj = {
-            'col':"yellow",
-            'mlidar_Status' : "เสร็จสิ้น!",
-            'description_title': item,
-            'description_detail': "",
-            'dis': "block",
-            
+    box = bx.getBox()
+    item = {
+        'frm_display': "block",
+        'tnf_display': "none",
+        'clr_btn' : "block",
+        'sc_btn' : "none",
+        'wei': box['weight'],
+        'wid' : box['width'],
+        'len' : box['length'],
+        'hei' : box['height'],
         }
-    else:
-        boxObj = {
-            'col':"red",
-            'mlidar_Status' : "ผิดพลาด !",
-            'description_title': "ตรวจสอบให้แน่ใจว่าคุณวางพัสดุในตำแหน่งที่ถูกต้อง",
-            'description_detail': "จากนั้นคลิ๊กปุ่ม Scan",
-            'dis': "none",
-        }
-    return render_template('scanner.html', **boxObj)  
+    
+    return render_template('infomation.html', **item)  
 
-@app.route('/scanner/scan' , methods=['POST','GET'])
+@app.route('/scanner/scan', methods=['POST','GET'])
 def objItem():
     
+    #print("Post")
     if request.method == 'POST':
-      faddr = request.form['faddr']
-      saddr = request.form['saddr']    
+       sender = request.form['sender']
+       addressee = request.form['addressee']
+       
     else:
-      faddr = request.args.get('faddr')
-      saddr = request.args.get('saddr')
-
-    boxObj = {
-        'dis': "none",
-        'genTrack': "TRACK",
-        'description_detail':'NUMBER',
-        'description_form': 'Form: ' + faddr,
-        'description_send': 'Send: ' + saddr,
+       sender = request.args.get('sender')
+       addressee = request.args.get('addressee')
+       
+    bx.setAddress(sender,addressee)
+    box = bx.getBox()
+    bx.genTrackNo()
+    bx.addBox()
+    
+    
+    item = {
+        'frm_display': "none",
+        'tnf_display': "block",
+        'clr_btn' : "block",
+        'sc_btn' : "none",
+        'des_display': "none",
+        'track_no': bx.getTrack(),
+        'description_form': box['sender'],
+        'description_send': box['addressee'],
     }
-    return render_template('scanner.html', **boxObj)
-
-
-@app.route('/add')
-def addItem():
-    boxObj = {
-        'engSta' : "!",
-        'genTrack': "MLD0000000",
-        'description_detail': "578.9g, 22, 15, 10",
-        
-    }
-    return render_template('document.html', **boxObj)
-
+    
+    return render_template('infomation.html', **item)
+    
 @app.route('/track')
 def track():
+    tem = {
+        'frm_display' : "block",
+        }
+    return render_template('track.html',**tem)
+
+@app.route('/track/find',methods=['POST','GET'])
+def findTrack():
+    date = ""
+    sender = ""
+    addressee = ""
+    cl = "red"
+    #Search data in DB table
+    
+    if request.method == 'POST':
+       trackNo = request.form['trackNo']
+    else:
+       trackNo = request.args.get('trackNo')
+    
+    conn = db.create_connection()
+    
+    st = db.search_trackNo(conn,trackNo)
+    
+    if st == None:
+        trackNo = "'" + trackNo +"'" + " No this Track!"
+    else :
+        date = "Date: " + st[0]
+        sender = "Sender: " + st[6]
+        addressee = "Addressee: " + st[7]
+        cl = "#228b22"
+        
+    
+    
     boxObj = {
-        'genTrack': " ",
-        'description_detail': " ",
+        'cl': cl,
+        'trackNo': trackNo,
+        'date': date,
+        'sender': sender,
+        'addressee' : addressee,
     }
     return render_template('track.html',**boxObj)
 
-@app.route('/track/find',methods=['POST'])
-def findTrack():
-    #Search data in DB table 
-    x = dict(request.form.items())
-   
-    boxObj = {
-        'genTrack': x["trackNo"],
-        'description_detail': trackNo,
-    }
-    return render_template('track.html',**boxObj)    
+@app.route('/document')
+def document():
+    conn = db.create_connection()
+    rows = db.list_table(conn)
+    return render_template('document.html',rows=rows)
+
+@app.route('/del/<track>',methods=['POST', 'GET'])
+def delete(track):
+    conn = db.create_connection()
+    db.delete_data(conn,track)
+    return document()
+
+@app.route('/edit/<trackNo>',methods = ['POST','GET'])
+def edit_pg(trackNo):
+    conn = db.create_connection()
+    rows = db.search_trackNo(conn,trackNo)
+    
+    print (rows[1])
+    return render_template('editadd.html',rows=rows)
+
+@app.route('/editt/<trackNo>',methods=['POST', 'GET'])
+def editAdd(trackNo):
+    if request.method == 'POST':
+       sender = request.form['sender']
+       address = request.form['address']
+    else:
+       sender = request.args.get('sender')
+       address = request.args.get('address')
+       
+    conn = db.create_connection()
+    db.edit_data(conn,trackNo,sender,address)
+    
+    return document()
 
 
 

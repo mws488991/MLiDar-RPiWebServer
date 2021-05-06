@@ -1,12 +1,20 @@
 <!DOCTYPE html>
     <head>
-        <title> MLiDar | Scanner </title>
+        <title> MLiDar | Documents </title>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap" rel="stylesheet">
         <link href="../static/css/page_styles.css" rel="stylesheet">
+        <style type="text/css">
+            .des-screen-on { 
+             display: block;
+            }
+            .des-screen-off { 
+             display: none;
+            }
+    </style>
     </head>
     <body>
-        <div class="screen">
+        <div class="screen sc-01">
             <div class="collapsible-menu">
                 <input type="checkbox" id="menu">
                 <label for="menu">MLiDar Document</label>
@@ -19,22 +27,39 @@
                     </ul>
                 </div>
             </div>
-            <div class="description">
-                <h1>Engine Status : {{ engSta }}</h1>
-                
+            <div class="des-screen-on" id="rady">
+                <div class="description">
+                    <h1 style="color: #228b22">ตารางแสดงผล</h1>
+                    <div class="table-doc" style="margin-left: 15px; padding-bottom: 20px;">
+                        <table border="1" 1cellspacing="5" width="80%" height="5" align="center">
+                        <thead>
+                            <td align="center">Date</td>
+                            <td align="center">Track</td>
+                            <td align="center">Sender</td>
+                            <td align="center">Addressee</td>
+                            <td colspan="2" align="center" width="10%">Tools</td>
+
+                        </thead>
+                       
+                        {% for row in rows %}
+                            <tr>
+                               <td>{{ row[0] }}</td>
+                               <td>{{ row[1] }}</td>
+                               <td>{{ row[6] }}</td>
+                               <td>{{ row[7] }}</td>
+                               <td><form action="/del/{{ row[1] }}" method="post"> <input type="submit" value="Delete" /> </form></td>
+                               <td><form action="/edit/{{ row[1] }}" method="post"> <input type="submit" value="Edit" /> </form></td>
+                               
+                            </tr>
+                        {% endfor %}
+                    </div>
+                </div>
+               
             </div>
-            <div class="description-obj">
-                <h2>{{ genTrack }} </h2>
-                <h3> {{ detail }} </h3>
-            </div>
+            
         </div>
        
-        <div class="container">
-            <a href="/scanner/clear" class="action-button animate shadow">Clear</a>
-           
-            <a href="/scanner/scan"" class="scan action-button shadow animate green">Scan</a>
-            <a href="/add" class="scan action-button shadow animate green">Add Item</a>
-        </div>     
+        
         
     </body>
 </html>
