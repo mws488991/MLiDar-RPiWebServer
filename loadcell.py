@@ -1,6 +1,7 @@
 import sys
 
 class Loadcell():
+    wei = 0
     def __init__(self, gpio1, gpio2, per_gram):
         self.gpio1 = gpio1
         self.gpio2 = gpio2
@@ -26,7 +27,7 @@ class Loadcell():
         hx.set_reference_unit(self.referenceUnit)
         hx.reset()
         hx.tare()
-        print ("Setup Finish!")
+        print ("LoadCell Setup")
         self.hx = hx
         return True
         
@@ -44,6 +45,7 @@ class Loadcell():
                 wei_gram = (val - temp) /  self.perGram
                 if abs(last_wei - wei_gram) > 5:
                     self.weight = wei_gram
+                    wei = wei_gram
                     print(wei_gram)
                 elif abs(last_wei - wei_gram) < 30:
                     break
@@ -55,11 +57,14 @@ class Loadcell():
                 
             except (KeyboardInterrupt, SystemExit):
                 cleanAndExit()
-                
-                
-    
-    def getWeight(self):
-        return self.weight
-
+                return 0
+        we = self.weight
         
-
+        #print(we)
+        return we
+'''
+a = Loadcell(5,6,214)
+a.setLoadcell()
+input("Enter")
+b = a.doWeight()
+print (b)'''

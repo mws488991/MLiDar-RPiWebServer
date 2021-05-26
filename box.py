@@ -3,17 +3,16 @@ import datetime
 
 class Box:
     
-    def __init__(self,weight,width,height):
+    def __init__(self):
         self.box = {
             'dateOder': datetime.datetime.now(),
-            'weight': weight,
-            'width' : width,
-            'length' : 340,
-            'height' : height,
+            'weight': 0,
+            'width' : 0,
+            'length' : 0,
+            'height' : 0,
             'trackNo': '',
             'sender': "",
             'addressee': "",
-            
             }
         
     def getTrack(self):
@@ -25,6 +24,19 @@ class Box:
     def setAddress(self,sender,addressee):
         self.box['sender'] = str(sender)
         self.box['addressee'] = str(addressee)
+        
+    def setWeight(self,wei): 
+        self.box['weight'] = wei
+        
+    def setHeight(self,hei):
+        self.box['height'] = hei
+        
+    def setLength(self,leng):
+        self.box['length'] = leng
+    
+    def setWidth(self,wid):
+        self.box['width'] = wid
+    
     
     #generate this Track No.
     def genTrackNo(self):

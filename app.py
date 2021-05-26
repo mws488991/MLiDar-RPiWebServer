@@ -4,14 +4,24 @@ from flask import Flask, render_template, request
 from tfmini import TFmini
 from box import Box
 from database_connect import Databaes_connect
+
+import multiprocessing as mp
+
+from RpiMotorLib import RpiMotorLib
     
+GPIO_pins = (17, 27, 22)
+direction= 20            
+step = 21
+
+motor = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
+
 app = Flask(__name__)
 ld = Loadcell(5,6,214)
 tf = TFmini()
-crlib = tf.calib()
-bx = None
-db = Databaes_connect()
 
+bx = Box()
+db = Databaes_connect()
+#mt = Motor_step()
 
 
 @app.route('/')
@@ -23,28 +33,49 @@ def index():
 #Connecting MLiDAR and return status
 @app.route('/scanner')
 def scanner_pg():  
-      
       return render_template('scanner.html')    
 
 
-
 @app.route('/scanner/scan', methods=['GET'])
+def scaningfirst():
+    #scan by TFMini
+    p1 = mp.Process(target=stp_motor)
+    p1.start()
+    tf.calib()
+    LiDlist = tf.getTFminiData()
+    siz = tf.getSize(LiDlist)
+    print(siz)
+    bx.setLength(int(siz['wid']))  
+    bx.setHeight(siz['hei']*10)
+             
+    return render_template('scanagian.html')
+
+@app.route('/scanner/scanagin', methods=['GET'])
 def scaning():
     #scan by TFMini
     if ld.setLoadcell():
-        print("Add Item")
-        time.sleep(2)
-        obj = tf.getTFminiData(crlib)
-        if obj == None:
-            return '<h1 style="color:red;">Time Over</h1>'
-        print(obj)
         
-        time.sleep(2)
-        ld.doWeight() 
-        weight = ld.getWeight()
+        p1 = mp.Process(target=stp_motor)
+        p1.start()
         
-        global bx
-        bx = Box(int(weight),int(obj['wid']*10),int(obj['hei']*10))
+        
+        
+        LidList = tf.getTFminiData()
+        siz = tf.getSize(LidList)
+     
+        if LidList == None:
+            return '<h1 style="color:red;">กรุณาตรวจสอบอีกครั้งว่าคุณวางพัสดุแล้ว</h1>'
+        time.sleep(10)
+        print("Weigthing...")
+        weight = ld.doWeight()
+        
+        if weight == 0:
+            return '<h1 style="color:red;">พัสดุไม่ตรงตำแหน่ง</h1>'
+        #print(weight)
+        
+        bx.setWidth(int(siz['wid']*10))
+        bx.setWeight(int(weight))
+        
         
     else :
         print("Calibrate Error")
@@ -60,13 +91,12 @@ def scaning():
         'len' : box['length'],
         'hei' : box['height'],
         }
-    
+
     return render_template('infomation.html', **item)  
 
 @app.route('/scanner/scan', methods=['POST','GET'])
 def objItem():
     
-    #print("Post")
     if request.method == 'POST':
        sender = request.form['sender']
        addressee = request.form['addressee']
@@ -171,8 +201,11 @@ def editAdd(trackNo):
     
     return document()
 
+def stp_motor():
+    motor.motor_go(True, "Full" , 1200,.006, False, .05)
 
-
+        
+#webserver
 if __name__=='__main__':
-    app.run(debug=True, port=80, host='0.0.0.0')
+    app.run(debug=True, port=5000, host='127.0.0.1')
     
