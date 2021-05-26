@@ -3,14 +3,14 @@ MLiDar-RPiWebServer
 ..................
 Start Process
 # step 1: Clone MLiDAR file.
-  ''' $ git clone https://github.com/mws488991/MLiDar-RPiWebServer.git '''
+  >>>  $ git clone https://github.com/mws488991/MLiDar-RPiWebServer.git 
 
 # step 2: install requirements
-  ''' $ pip install -r requirements.txt '''
+  >>>  $ pip install -r requirements.txt 
 
 # step 3: Run System
-  ''' $ export FLASK_APP=app.py '''
-  ''' $ flask run '''
+  >>> $ export FLASK_APP=app.py 
+  >>> $ flask run 
 
 
 ***Note: Requirement Device and OS
