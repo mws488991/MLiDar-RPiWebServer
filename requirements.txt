@@ -1,5 +1,5 @@
 Flask==1.1.2
-SQlite3==18.1
 html5lib==1.0.1
 RpiMotorLib==3.1
 hx711==1.1.2.3
+RPi.GPIO==0.7.0
