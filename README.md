@@ -1,24 +1,24 @@
-## MLiDAR: The system accurately measures the height and weighs parcel box
-MLiDar-RPiWebServer
-
+# MLiDAR: The system accurately measures the height and weighs parcel box
+The MLiDar-RPiWebServer File
 ..................
 
 Start Process
-# step 1: Clone MLiDAR file.
-   $ git clone https://github.com/mws488991/MLiDar-RPiWebServer.git 
+## step 1: Clone MLiDAR file.
+    git clone https://github.com/mws488991/MLiDar-RPiWebServer.git 
 
-# step 2: install requirements
-   $ pip install -r requirements.txt 
+## step 2: install requirements
+    cd MLiDar-RPiWebServer
+    pip install -U -r requirements.txt 
 
-# step 3: Run System
-   $ export FLASK_APP=app.py 
-   $ flask run 
+## step 3: Run System
+    export FLASK_APP=app.py 
+    flask run 
 
+# **Worning!**
+   ### ... The Requirement Device and OS for MLiDAR ...
+   ### You can run MLiDar in Raspbery Pi 4 Model B only!! 
+   ### Raspbian version 10 --
 
-***Note: Requirement Device and OS
- -- Raspbian version 10
- -- pip3 version 18.1
- -- Python3 version 3.7.3
 --------------------------------------
 
 Copyright (c) 2021 Watcharapong Sookpan
