@@ -2,7 +2,7 @@
 The MLiDar-RPiWebServer File
 ..................
 
-Start Process
+# Start Process
 ## step 1: Clone MLiDAR file.
     git clone https://github.com/mws488991/MLiDar-RPiWebServer.git 
 
@@ -16,8 +16,8 @@ Start Process
 
 # **Worning!**
    ### ... The Requirement Device and OS for MLiDAR ...
-   ### You can run MLiDar in Raspbery Pi 4 Model B only!! 
-   ### Raspbian version 10 --
+   You can run MLiDar in Raspbery Pi 4 Model B only!! 
+   Raspbian version 10 --
 
 --------------------------------------
 
